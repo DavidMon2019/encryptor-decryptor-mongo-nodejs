@@ -1,0 +1,109 @@
+<% include partials/_header %>
+
+<div class="container">
+
+    <div class="row">
+        <!--FORM-->
+        <div class="col-md-5">
+            <div class="card">
+                <div class="card-body">
+                    <form action="/add" method="post">
+                        <div class="form-group">
+                            <h3><span class="label label-default">
+                                   <i class="fas fa-user-lock"></i>
+                                Encriptar
+                            </span></h3>
+                        </div>
+
+                        <div class="form-group">
+                            <input class="form-control" type="text" name="name" placeholder="Name">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" type="password" name="password" placeholder="Password">
+                        </div>
+                    <!--    <div class="form-group">
+                            <input class="form-control" type="password" name="password_aes" placeholder="New Password">
+                        </div>-->
+                        <button class="btn btn-primary" type="submit">
+                            Encriptar
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!---->
+        <div class="col-md-7">
+            <table class="table table-bordered table-hover">
+                <thead>
+                <tr class="text-light bg-primary">
+                    <th>N°</th>
+                    <th>Name</th>
+                    <th>Password</th>
+                    <th>Password_AES</th>
+                </tr>
+                </thead>
+                <tbody>
+                <% for(var i = 0; i < user.length; i++) { %>
+                    <tr>
+                        <td><%= i + 1 %></td>
+                        <td><strong><%= user[i].name %></strong></td>
+                        <td><%= user[i].password %></td>
+                        <td><%= user[i].password_aes %></td>
+                        <td>
+                            <!--      <a class="<%#= tasks[i].status ? 'btn btn-success' : 'btn btn-dark' %>"
+                               href="/turn/<%#= tasks[i]._id %>">Done</a>--%> -->
+                            <a href="/delete/<%= user[i]._id %>"
+                               class="btn btn-danger">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                            <a href="/edit/<%= user[i]._id %>" class="btn btn-info">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                        </td>
+                    </tr>
+                <% } %>
+                </tbody>
+            </table>
+
+        </div>
+
+
+    </div>
+
+    <!-- LIST -->
+    <div class="row ">
+        <div class="col-md-5">
+            <div class="card">
+                <div class="card-body">
+                    <form action="" method="post">
+                        <div class="form-group">
+                            <h3><span class="label label-default">
+                                    <i class="fas fa-key"></i>
+                                Desencriptar
+                            </span></h3>
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" type="text" name="name" placeholder="Name">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" type="password" name="password_aes" placeholder="Encrypt Password">
+                        </div>
+                        <div class="form-group">
+                            <%if (user.password_aes){%>
+                                <textarea id="password" class="form-control" type="password" name="password" placeholder="Password" readonly >
+
+                                </textarea>
+                            <%}%>
+                        </div>
+
+                        <button class="btn btn-primary" onclick="desencriptar()">
+                            Desencriptar
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
