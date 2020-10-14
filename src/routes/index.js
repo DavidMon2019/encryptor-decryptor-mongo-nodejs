@@ -6,6 +6,14 @@ const crypto = require('crypto'),
     algorithm = 'aes-256-ctr',
     password = 'd6F3Efeq';
 
+let decryp_pass;
+
+/*async function getUsers(res){
+    const user = await User.find();
+    res.render('index', {
+        user
+    });
+}*/
 
 router.get('/', async (req, res) => {
     const user = await User.find();
@@ -26,14 +34,20 @@ router.post('/add', async (req, res, next) => {
     res.redirect('/');
 });
 
-function desencriptar() {
-    var decipher = crypto.createDecipher(algorithm, password)
-    var dec = decipher.update(req.body.password_aes, 'hex', 'utf8')
-    dec += decipher.final('utf8');
-    document.getElementById('password').innerHTML = ' <textarea id="password" class="form-control" type="password" name="password" placeholder="Password" readonly >\n' +
-        '\n' + ' doc' +
-        ' </textarea>';
-}
+router.post('/', async (req, res, next) => {
+        const user = new User(req.body);
+        var decipher = crypto.createDecipher(algorithm, password);
+        var dec = decipher.update(req.body.password_aes, 'hex', 'utf8');
+        dec += decipher.final('utf8');
+        user.password = dec;
+
+        res.render('index', {
+            user
+        });
+
+    }
+)
+;
 
 router.get('/turn/:id', async (req, res, next) => {
     let {id} = req.params;
